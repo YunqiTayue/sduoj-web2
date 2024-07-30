@@ -48,7 +48,6 @@
     "babel-plugin-named-asset-import": "^0.3.7",
     "babel-preset-react-app": "^10.0.1",
     "bfj": "^7.0.2",
-    "browserslist": "^4.21.5",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "clipboard": "^2.0.11",
@@ -127,7 +126,7 @@
     "yarn": "^1.22.19"
   },
   "scripts": {
-    "start": "cross-env HTTPS=true SSL_CRT_FILE=./.cert/cert.pem SSL_KEY_FILE=./.cert/key.pem node scripts/start.js",
+    "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/src.js/Test"
   },
@@ -173,7 +172,7 @@
       "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
     ],
     "testEnvironment": "jsdom",
-    "testRunner": "G:\\sduoj\\node_modules\\jest-circus\\runner.js",
+    "testRunner": "D:\\sduoj\\node_modules\\jest-circus\\runner.js",
     "transform": {
       "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
@@ -207,5 +206,10 @@
       "jest-watch-typeahead/testname"
     ],
     "resetMocks": true
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "browserslist": "^4.23.2",
+    "caniuse-lite": "^1.0.30001642"
   }
 }

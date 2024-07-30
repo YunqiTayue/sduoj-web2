@@ -9,13 +9,17 @@ import {
     NotificationOutlined,
     ReconciliationOutlined,
     UsergroupAddOutlined,
-    UserOutlined
+    UserOutlined,
+    CheckSquareOutlined
 } from "@ant-design/icons";
 
 import {lazy} from "react";
 import {IRouter} from "./router";
 import {UrlPrefix} from "../constValue";
 
+// const withDevAccess = (component: React.LazyExoticComponent<any>) => {
+//     return process.env.NODE_ENV === 'development' ? component : lazy(() => import('../../Component/user/Login'));
+// };
 export const routerM: IRouter[] = [
     {
         id: 0,
@@ -219,4 +223,12 @@ export const routerM: IRouter[] = [
     //         },
     //     ]
     // }
+    {
+        id: 11,
+        path:UrlPrefix + "/manage/sign",
+        exact: false,
+        title_i18n: "sign",
+        icon:<CheckSquareOutlined />,
+        component:lazy(()=>import('../../Pages/Manage/MSign')),
+    },
 ]

@@ -348,7 +348,24 @@ const cApi = {
     // 查看互评结果
     async getSMEResult(data: any) {
         return request.get("/sme/results/", data)
-    }
+    },
+
+    //--------------查询教室信息--------------
+    async getUserSeat(params:{groupId:bigint,username:string}){
+        return request.get("/classroom/seatList/seatInfo",params)
+    },
+
+    //--------------用户签到------------------
+    async userCheckin(data:any){
+        return request.post("/sign/checkin",data)
+    },
+    async editUserSign(data:any){
+        return request.post("/sign_user/edit",data)
+    },
+    //---------------录屏相关------------------
+    async screenrecordAddFrame(data: any){
+        return request.post("/screenrecord/addFrame", data);
+    },
 }
 
 export default cApi;

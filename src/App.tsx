@@ -1,5 +1,4 @@
 import React, {Dispatch, Suspense} from 'react';
-
 import './App.css';
 import 'antd/dist/antd.css';
 import './Config/i18n'
@@ -12,6 +11,10 @@ import Loading from "./Utils/Loading";
 import {routerLayout} from "./Config/router/router";
 import SubmissionModal from "./Component/submission/Processing/ModalProcessing";
 import RequirePassChange from "./Component/common/RequirePassChange";
+import MGroup from "./Pages/Manage/MGroup";
+import MUser from "./Pages/Manage/MUser";
+import MExam from "./Pages/Manage/MExam";
+import MProblem from "./Pages/Manage/Problem/MProblem";
 
 
 const App = (props: any) => {

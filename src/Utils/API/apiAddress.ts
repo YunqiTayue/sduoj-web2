@@ -14,11 +14,17 @@ export default function apiAddress() {
     //     SOCKET_SERVER: "ws://api.oj.cs.sdu.edu.cn:8080"
     // }
     if (process.env.NODE_ENV === 'development') return {
-        CLIENT_SERVER: 'https://oj.cs.sdu.edu.cn:' + port,
-        MANAGE_SERVER: 'https://oj.cs.sdu.edu.cn:' + port,
-        EXAM_SERVER: 'https://oj.cs.sdu.edu.cn:' + port,
-        FRONT_SERVER: 'https://oj.cs.sdu.edu.cn:3000',
-        SOCKET_SERVER: 'wss://oj.cs.sdu.edu.cn:' + port
+        // CLIENT_SERVER: 'https://oj.cs.sdu.edu.cn:' + port,
+        // MANAGE_SERVER: 'https://oj.cs.sdu.edu.cn:' + port,
+        // EXAM_SERVER: 'https://oj.cs.sdu.edu.cn:' + port,
+        // FRONT_SERVER: 'https://oj.cs.sdu.edu.cn:3000',
+        // SOCKET_SERVER: 'wss://oj.cs.sdu.edu.cn:' + port
+        CLIENT_SERVER: 'http://api.test.sduoj.com:' + port,
+        MANAGE_SERVER: 'http://api.test.sduoj.com:' + port,
+        // EXAM_SERVER: 'https://10.102.0.228:' + port,
+        FRONT_SERVER: 'https://test.sduoj.com:3000',
+        SOCKET_SERVER: 'ws://api.test.sduoj.com:' + port
+
     }
     // return {
     //     CLIENT_SERVER: 'http://exam.yhf2000.cn:9000',

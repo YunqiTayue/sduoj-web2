@@ -1,4 +1,4 @@
-import {
+ import {
     checkPointData,
     examID,
     groupInfo,
@@ -391,8 +391,74 @@ const mApi = {
     // 重新排序测试点
     async reArrangePsCheckpoints(data: any) {
         return request.post("/ps/answer_sheet/pbcp/reArr", data)
-    }
+    },
 
+    //--------------教室绑定相关----------------
+    async createClassroom(data: any){
+        return request.post("/classroom/createClassroom",data)
+    },
+    async editClassroom(data: any){
+        return request.post("/classroom/editClassroom",data)
+    },
+    //?
+    async getClassroomInfo(params:{classroomId:number}){
+        return request.get("/classroom/classroomInfo",params)
+    },
+    async getClassroomList(data: any){
+        return request.get("/classroom/classroomListInfo",data)
+    },
+    async createSeatList(data: any){
+        return request.post("/classroom/seatList/create",data);
+    },
+    async editSeatList(data: any){
+        return request.post("/classroom/seatList/edit",data)
+    },
+    //?
+    async getSeatList(data:any){
+        return request.get("/classroom/seatList/all/listInfo",data)
+    },
+    async getSeatListInfo(params:{groupId:number}){
+        return request.get("/classroom/seatList/listInfo",params)
+    },
+
+
+    //--------------签到相关----------------------
+    async createSign(data:any){
+        return request.post("/sign/create",data)
+    },
+    async editSign(data:any){
+        return request.post(`/sign/edit/${data.sg_id}`,data.data)
+    },
+    async deleteSign(params:{sg_id:bigint}){
+        return request.post("/sign/info",params)
+    },
+    async getSignInfo(params:{sg_id:bigint}){
+        return request.get("/sign/info",params)
+    },
+    // async getSignList()
+    async getUserSignList(params:{username:string}){
+        return request.get("/sign/list",params)
+    },
+    async getSignUserInfo(params: {sg_id: number,sg_u_id:number}){
+
+        return request.get('/sign/userInfo', params);
+    },
+    async getSignUserList(params: {sg_id: number}){
+        return request.get('/sign/userList', params);
+    },
+    async deleteUserSign(params:{sg_u_id:bigint}){
+        return request.post("/sign_user/delete",params)
+    },
+    async getSignUSerInfo(params:{sg_id:bigint}){
+        return request.get("/sign/userInfo",params)
+    },
+    //---------------录屏相关-------------------
+    getScreenrecord: async function (params: {v_id: number}){
+        return request.get('/screenrecord/getVideo', params);
+    },
+    deleteScreenrecord: async function (params: {v_id: number}){
+        return request.post('/screenrecord/deleteVideo', params);
+    }
 
 }
 
