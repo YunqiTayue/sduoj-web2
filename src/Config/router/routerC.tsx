@@ -111,6 +111,12 @@ export const routerC: IBaseRouter[] = [
     //     exact: true,
     //     component: lazy(() => import('../../Pages/Ext/Ext-HwsInfo'))
     // },
+    {
+        id:14,
+        path:UrlPrefix + "/sign/:signId",
+        exact:true,
+        component: lazy(() => import("../../Pages/Client/CSignInfo"))
+    },
 ]
 
 export const router_ProblemSet: IBaseRouter[] = [

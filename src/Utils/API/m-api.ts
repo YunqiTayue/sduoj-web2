@@ -1,4 +1,4 @@
- import {
+import {
     checkPointData,
     examID,
     groupInfo,
@@ -435,16 +435,17 @@ const mApi = {
     async getSignInfo(params:{sg_id:bigint}){
         return request.get("/sign/info",params)
     },
-    // async getSignList()
-    async getUserSignList(params:{username:string}){
-        return request.get("/sign/list",params)
+    async getSignList(data:any){
+        return request.get("/sign/list",data)
     },
     async getSignUserInfo(params: {sg_id: number,sg_u_id:number}){
-
         return request.get('/sign/userInfo', params);
     },
     async getSignUserList(params: {sg_id: number}){
-        return request.get('/sign/userList', params);
+        return request.get('/sign/userInfoList', params);
+    },
+    async updateSignUserCheck(data:any){
+        return request.post('/sign_user/check',data);
     },
     async deleteUserSign(params:{sg_u_id:bigint}){
         return request.post("/sign_user/delete",params)

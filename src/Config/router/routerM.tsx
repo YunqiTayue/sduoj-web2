@@ -224,7 +224,7 @@ export const routerM: IRouter[] = [
     //     ]
     // }
     {
-        id: 11,
+        id: 30,
         path:UrlPrefix + "/manage/sign",
         exact: false,
         title_i18n: "sign",

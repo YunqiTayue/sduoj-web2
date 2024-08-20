@@ -9,6 +9,7 @@ import MarkdownText from "../../Utils/MarkdownText";
 import cApi from "../../Utils/API/c-api"
 import {UrlPrefix} from "../../Config/constValue";
 import {withTranslation} from "react-i18next";
+import QrCodeWithWebSocket from "../sign/Form/Item/qrCode";
 
 const Public = (props: any) => {
     const problemSetId = props.match.params.problemSetId
@@ -16,6 +17,8 @@ const Public = (props: any) => {
     const {Meta} = Card;
     const [info, setInfo] = useState<any>()
     const State = info && TimeRangeState(info.tm_start, info.tm_end)
+    const [scanned,setScanned]=useState(false)
+    const [token,setToken]=useState("")
 
     useEffect(() => {
         if (info === undefined) {
@@ -41,6 +44,10 @@ const Public = (props: any) => {
                 title={info?.name}
                 extra={
                     <div className={"Ewait-content"}>
+                        <QrCodeWithWebSocket
+                            group_id={props.groupId}
+                            username={props.username}
+                        />
                         <Card
                             cover={
                                 <>

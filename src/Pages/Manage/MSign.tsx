@@ -1,68 +1,143 @@
 import React, {Component, Dispatch} from "react";
 import {withRouter} from "react-router";
-import {UserState} from "../../Type/Iuser";
 import {Card, Space} from "antd";
-import MApi from "../../Utils/API/m-api";
-import mApi from "../../Utils/API/m-api";
+import mApi from "../../Utils/API/m-api_test";
 import {withTranslation} from "react-i18next";
 import {connect} from "react-redux";
-import {unix2Time} from "../../Utils/Time";
 import TableWithPagination from "../../Component/common/Table/TableWithPagination";
 import ModalFormUseForm from "../../Component/common/Form/ModalFormUseForm";
-import GroupFormProfile from "../../Component/group/Form/Item/GroupFormProfile";
-import GroupMember from "../../Component/group/GroupMember";
+import SignFormProfile from "../../Component/sign/Form/SignFormProfile";
+import CheckConfirm from "../../Component/sign/Form/Item/CheckConfirm";
+import SignStatusInquiry from "../../Component/sign/SignStatusInquiry";
+import {TableState} from "../../Type/ITable";
+
 
 
 class MSign extends Component<any, any> {
+    getModeText(mode:number):string{
+        const modeMap:{[key:number]:string}={
+            0:"考勤模式",
+            1:"考试模式A",
+            2:"考试模式B",
+            3:"信息输入模式"
+        };
+        return modeMap[mode];
+    }
+
+    getSeatBindText(ifSeatBind:number):string{
+        const seatBindMap:{[key:number]:string}={
+            0:"否",
+            1:"是"
+        }
+        return seatBindMap[ifSeatBind];
+    }
+
     render() {
         let colData: any[] = [
             {
                 title: "ID",
-                dataIndex: "sgId",
+                dataIndex: "sg_id",
                 width: 100,
                 responsive: ["lg", "sm", "xs"]
+            },
+            {
+              title:"标题",
+              dataIndex: "title",
+              width: "auto",
+              responsive: ["lg", "sm", "xs"]
             },
             {
                 title: "签到模式",
                 dataIndex: "mode",
                 width: "auto",
-                responsive: ["lg", "sm", "xs"]
+                responsive: ["lg", "sm", "xs"],
+                render:(text:any)=>this.getModeText(text)
             },
             {
                 title: "用户组ID",
-                dataIndex: "groupID",
+                dataIndex: "group_id",
                 width: "auto",
                 responsive: ["lg", "sm", "xs"]
             },
             {
                 title: "管理组ID",
-                dataIndex: "mGroupID",
+                dataIndex: "m_group_id",
                 width: "auto",
                 responsive: ["lg", "sm", "xs"]
             },
             {
                 title: "开始时间",
-                dataIndex: "startTime",
+                dataIndex: "gmtStart",
                 width: "auto",
                 responsive: ["lg", "sm", "xs"]
             },
             {
                 title: "结束时间",
-                dataIndex: "endTime",
+                dataIndex: "gmtEnd",
                 width: "auto",
                 responsive: ["lg", "sm", "xs"]
             },
             {
                 title: "是否指定座位",
-                dataIndex: "seatBind",
+                dataIndex: "seat_bind",
                 width: "auto",
-                responsive: ["lg", "sm", "xs"]
+                responsive: ["lg", "sm", "xs"],
+                render:(ifSeatBind:any)=>this.getSeatBindText(ifSeatBind)
             },
             {
-                title: "签到标签",
-                dataIndex: "title",
+                title:this.props.t("operator"),
                 width: "auto",
-                responsive: ["lg", "sm", "xs"]
+                render:(text:any,rows:any)=>{
+                    return(
+                        <Space>
+                            <ModalFormUseForm
+                                TableName={"signList"}
+                                width={500}
+                                title={rows.title}
+                                type={"update"}
+                                subForm={[
+                                    {component: <SignFormProfile/>}
+                                ]}
+                                dataLoader={async () => mApi.getSignInfo({sg_id: rows.sg_id})}
+                                updateAppendProps={{sg_Id: rows.sg_id}}
+                                dataSubmitter={(value: any) => {
+                                    return mApi.editSign(value)
+                                }}
+                            />
+                            <ModalFormUseForm
+                                TableName={"signList"}
+                                width={500}
+                                title={"新建签到（克隆自"+rows.title+")"}
+                                type={"fork"}
+                                subForm={[
+                                    {component: <SignFormProfile/>}
+                                ]}
+                                dataLoader={async () => mApi.getSignInfo({sg_id: rows.sg_id})}
+                                updateAppendProps={{sg_Id: rows.sg_id}}
+                                dataSubmitter={(value: any) => {
+                                    return mApi.createSign(value)
+                                }}
+                            />
+                            <CheckConfirm
+                                btnName={"请假审核"}
+                                btnType={"link"}
+                                width={1200}
+                                title={"Members in " + rows.title + "(Sign ID:" + rows.sg_id + ")"}
+                                initData={rows}
+                                sg_id={rows.sg_id}
+                            />
+                            <SignStatusInquiry
+                                btnName={"签到情况"}
+                                btnType={"link"}
+                                width={1000}
+                                title={"Members in " + rows.title + "(Sign ID:" + rows.sg_id + ")"}
+                                initData={rows}
+                                sg_id={rows.sg_id}
+                            />
+                        </Space>
+                    )
+                }
+
             }
         ];
         return (
@@ -73,17 +148,29 @@ class MSign extends Component<any, any> {
                     title={"签到列表"}
                     extra={
                         <Space>
-
+                            <ModalFormUseForm
+                                TableName={"SignList"}
+                                width={1200}
+                                title={"新建签到"}
+                                type={"create"}
+                                subForm={[
+                                    {component: <SignFormProfile/>, label: ""}
+                                ]}
+                                dataSubmitter={(value: any) => {
+                                    return mApi.createSign(value)
+                                }}
+                            />
                         </Space>
                     }
                 >
                     <TableWithPagination
-                        name={"GroupList"}
+                        name={"SignList"}
+                        search={true}
                         columns={colData}
                         disableSelection={true}
-                        API={MApi.getGroupList}
+                        API={mApi.getSignList}
                         size={"small"}
-                        rowKey={"groupId"}
+                        rowKey={"sg_id"}
                     />
                 </Card>
             </div>
@@ -91,14 +178,26 @@ class MSign extends Component<any, any> {
     }
 }
 
+// const mapStateToProps = (state: any) => {
+//     // const UState: UserState = state.UserReducer;
+//     // return {
+//     //     roles: UState.userInfo?.roles
+//     // };
+// };
+//
+// const mapDispatchToProps = () => ({});
 const mapStateToProps = (state: any) => {
-    const UState: UserState = state.UserReducer;
+    const TState: TableState = state.TableReduce
     return {
-        roles: UState.userInfo?.roles
-    };
-};
+        tableData: TState.tableData
+    }
 
-const mapDispatchToProps = () => ({});
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+    setSelectedRowKeys: (data: React.Key[], name: string) =>
+        dispatch({type: "setSelectedRowKeys", data: data, name: name}),
+})
 
 export default connect(
     mapStateToProps,

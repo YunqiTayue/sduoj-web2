@@ -354,13 +354,21 @@ const cApi = {
     async getUserSeat(params:{groupId:bigint,username:string}){
         return request.get("/classroom/seatList/seatInfo",params)
     },
-
+    async getUserSeatIP(params:{group_id:bigint,username:string}){
+        return request.get("/classroom/searchIP",params)
+    },
     //--------------用户签到------------------
     async userCheckin(data:any){
-        return request.post("/sign/checkin",data)
+        return request.post("/userSign/checkin",data)
     },
     async editUserSign(data:any){
-        return request.post("/sign_user/edit",data)
+        return request.post("/userSign/submit",data)
+    },
+    async getUserSignInfo(params:{group_id:number,username:bigint}){
+        return request.get("/userSign/userInfo",params)
+    },
+    async getUserSignList(params:{group_id:number,username:string}){
+        return request.get("/userSign/list",params)
     },
     //---------------录屏相关------------------
     async screenrecordAddFrame(data: any){

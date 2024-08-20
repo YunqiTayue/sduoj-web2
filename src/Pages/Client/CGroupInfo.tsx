@@ -13,6 +13,9 @@ import GroupUserListCard from "../../Component/common/GroupUserListCard";
 import ProblemSetList from "../../Component/problemSet/ProblemSetList";
 import {useTranslation} from "react-i18next";
 import MarkdownText from "../../Utils/MarkdownText";
+import PersonalSignList from "../../Component/sign/PersonalSignList";
+import SignModal from "../../Component/sign/Form/Item/signModal";
+import {UserState} from "../../Type/Iuser";
 
 
 const CGroupInfo = (props: any) => {
@@ -62,7 +65,10 @@ const CGroupInfo = (props: any) => {
         <>
             <div style={{textAlign: "center", margin: "0 auto"}}>
                 <div style={{textAlign: "left", maxWidth: "1500px", margin: "0 auto"}}>
-
+                    <SignModal
+                        groupId={groupId}
+                        username={props.username}
+                    />
                     <div>
                         <Card
                             title={
@@ -128,6 +134,12 @@ const CGroupInfo = (props: any) => {
                                         <GroupUserListCard members={groupInfo.members}/>
                                     )}
                                 </Tabs.TabPane>
+                                <Tabs.TabPane tab={t("checkin")} key={"checkin"}>
+                                    <PersonalSignList
+                                        groupId={groupId}
+                                        username={props.username}
+                                    />
+                                </Tabs.TabPane>
                             </Tabs>
                         </Card>
                     </div>
@@ -137,12 +149,23 @@ const CGroupInfo = (props: any) => {
     )
 }
 
+// const mapStateToProps = (state: any) => {
+//     const State: CommonState = state.CommonReducer
+//     return {
+//         keyValueData: State.keyValueData
+//     }
+// }
+
 const mapStateToProps = (state: any) => {
-    const State: CommonState = state.CommonReducer
+    const commonState: CommonState = state.CommonReducer;
+    const userState: UserState = state.UserReducer;
+
     return {
-        keyValueData: State.keyValueData
-    }
-}
+        keyValueData: commonState.keyValueData,
+        username: userState.userInfo?.username
+    };
+};
+
 
 const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
     setKeyValueData: (key: string, value: any) => dispatch({

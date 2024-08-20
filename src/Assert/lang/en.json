@@ -326,5 +326,11 @@
   "PublicTestCaseInfo": "Public test case info",
   "new email": "New Email",
   "ShowAllInformation": "Show All Information",
-  "sign": "Sign"
+  "sign": "Sign",
+  "checkin": "Checkin",
+  "signList": "Sign List",
+  "seatID": "seat ID",
+  "signUserMessage": "Leave Request",
+  "signAbsencePass": "Is it approved",
+  "signTime": "Sign Time"
 }
