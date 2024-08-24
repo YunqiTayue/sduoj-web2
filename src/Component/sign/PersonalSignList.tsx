@@ -59,19 +59,27 @@ const PersonalSignList = (props: any) => {
             title: "开始时间",
             dataIndex: "gmtStart",
             width: "auto",
-            responsive: ["lg", "sm", "xs"]
+            responsive: ["lg", "sm", "xs"],
+            render: (timestamp: number) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
         },
         {
             title: "结束时间",
             dataIndex: "gmtEnd",
             width: "auto",
-            responsive: ["lg", "sm", "xs"]
+            responsive: ["lg", "sm", "xs"],
+            render: (timestamp: number) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
         },
         {
             title: "签到时间",
             dataIndex: "sg_time",
             width: "auto",
-            responsive: ["lg", "sm", "xs"]
+            responsive: ["lg", "sm", "xs"],
+            render: (sg_time: string | null) => {
+                if (sg_time === "00-00-00 00:00:00" || sg_time === null) {
+                    return null; // 不显示内容
+                }
+                return sg_time; // 正常显示时间
+            }
         },
         {
             title: "座位号",

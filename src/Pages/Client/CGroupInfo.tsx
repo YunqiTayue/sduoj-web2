@@ -16,6 +16,7 @@ import MarkdownText from "../../Utils/MarkdownText";
 import PersonalSignList from "../../Component/sign/PersonalSignList";
 import SignModal from "../../Component/sign/Form/Item/signModal";
 import {UserState} from "../../Type/Iuser";
+import QrCodeWithWebSocket from "../../Component/sign/Form/Item/qrCode";
 
 
 const CGroupInfo = (props: any) => {
@@ -26,7 +27,10 @@ const CGroupInfo = (props: any) => {
     const [psSum, setPsSum] = useState<string>()
     const [psTabItems, setPsTabItems] = useState<any>()
     const {t} = useTranslation()
-
+    const handleScanStatusChange = (scanned: boolean) => {
+        setScanned(scanned);
+    };
+    const [scanned,setScanned]=useState(false)
 
     useEffect(() => {
         const keyValueData_g = props.keyValueData["Group-C-activeKey-" + groupId]
@@ -66,9 +70,14 @@ const CGroupInfo = (props: any) => {
             <div style={{textAlign: "center", margin: "0 auto"}}>
                 <div style={{textAlign: "left", maxWidth: "1500px", margin: "0 auto"}}>
                     <SignModal
-                        groupId={groupId}
+                        group_id={groupId}
                         username={props.username}
                     />
+                    {/*<QrCodeWithWebSocket*/}
+                    {/*    group_id={groupId}*/}
+                    {/*    username={props.username}*/}
+                    {/*    onScanStatusChange={handleScanStatusChange} // 传递回调函数给子组件*/}
+                    {/*/>*/}
                     <div>
                         <Card
                             title={

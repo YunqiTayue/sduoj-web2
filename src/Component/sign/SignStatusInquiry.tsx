@@ -35,16 +35,16 @@ const SignStatusInquiry=(props:any)=>{
 
     const updateData=(data:any)=>{
         setInitData(data)
-        setUnsignedData(initData.filter((v:any)=>(v.sg_time===null||v.sg_time==="")&&v.sg_absence_pass!==1))
-        setSignedData(initData.filter((v:any)=>v.sg_time!==null&&v.sg_time!==""))
+        setUnsignedData(initData.filter((v:any)=>(v.sg_time==="00-00-00 00:00:00"||v.sg_time===null)&&v.sg_absence_pass!==1))
+        setSignedData(initData.filter((v:any)=>v.sg_time!==null&&v.sg_time!=="00-00-00 00:00:00"))
         setLeaveApprovedData(initData.filter((v:any)=>v.sg_absence_pass===1))
     }
 
     const getSignDetail=()=>{
         MApi.getSignUserList({ sg_id: props.sg_id }).then((data: any) => {
             updateData(data);
-        }).catch(() => {
-            console.log("error");
+        }).catch((error) => {
+            console.log(error);
         });
     }
 

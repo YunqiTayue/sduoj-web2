@@ -1,6 +1,6 @@
 import React, {Component, Dispatch} from "react";
 import {withRouter} from "react-router";
-import {Card, Space} from "antd";
+import {Button, Card, Space} from "antd";
 import mApi from "../../Utils/API/m-api_test";
 import {withTranslation} from "react-i18next";
 import {connect} from "react-redux";
@@ -10,6 +10,8 @@ import SignFormProfile from "../../Component/sign/Form/SignFormProfile";
 import CheckConfirm from "../../Component/sign/Form/Item/CheckConfirm";
 import SignStatusInquiry from "../../Component/sign/SignStatusInquiry";
 import {TableState} from "../../Type/ITable";
+import moment from "moment";
+import YesNoOperConfirm from "../../Component/common/YesNoOperConfirm";
 
 
 
@@ -26,8 +28,8 @@ class MSign extends Component<any, any> {
 
     getSeatBindText(ifSeatBind:number):string{
         const seatBindMap:{[key:number]:string}={
-            0:"否",
-            1:"是"
+            1:"否",
+            0:"是"
         }
         return seatBindMap[ifSeatBind];
     }
@@ -69,13 +71,15 @@ class MSign extends Component<any, any> {
                 title: "开始时间",
                 dataIndex: "gmtStart",
                 width: "auto",
-                responsive: ["lg", "sm", "xs"]
+                responsive: ["lg", "sm", "xs"],
+                render: (timestamp: number) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
             },
             {
                 title: "结束时间",
                 dataIndex: "gmtEnd",
                 width: "auto",
-                responsive: ["lg", "sm", "xs"]
+                responsive: ["lg", "sm", "xs"],
+                render: (timestamp: number) => moment(timestamp).format('YYYY-MM-DD HH:mm:ss')
             },
             {
                 title: "是否指定座位",
@@ -99,7 +103,7 @@ class MSign extends Component<any, any> {
                                     {component: <SignFormProfile/>}
                                 ]}
                                 dataLoader={async () => mApi.getSignInfo({sg_id: rows.sg_id})}
-                                updateAppendProps={{sg_Id: rows.sg_id}}
+                                updateAppendProps={{sg_id: rows.sg_id}}
                                 dataSubmitter={(value: any) => {
                                     return mApi.editSign(value)
                                 }}
@@ -113,7 +117,7 @@ class MSign extends Component<any, any> {
                                     {component: <SignFormProfile/>}
                                 ]}
                                 dataLoader={async () => mApi.getSignInfo({sg_id: rows.sg_id})}
-                                updateAppendProps={{sg_Id: rows.sg_id}}
+                                updateAppendProps={{sg_id: rows.sg_id}}
                                 dataSubmitter={(value: any) => {
                                     return mApi.createSign(value)
                                 }}
@@ -134,6 +138,15 @@ class MSign extends Component<any, any> {
                                 initData={rows}
                                 sg_id={rows.sg_id}
                             />
+                            {/*<Button type={"link"} size={"small"} onClick={() => {*/}
+                            {/*    mApi.deleteSign({sg_id:rows.sg_id})*/}
+                            {/*}}>*/}
+                            {/*    删除*/}
+                            {/*</Button>*/}
+                            {/*<YesNoOperConfirm*/}
+                            {/*    onConfirm={mApi.deleteSign({sg_id:rows.sg_id})}*/}
+                            {/*    content={<Button type="link" size={"small"}>删除</Button>}*/}
+                            {/*/>*/}
                         </Space>
                     )
                 }

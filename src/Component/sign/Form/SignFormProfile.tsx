@@ -2,7 +2,7 @@ import React from "react";
 import {withTranslation} from "react-i18next";
 import ItemTitle from "../../common/Form/Item/ItemTitle";
 import ItemText from "../../common/Form/Item/ItemText";
-import {Form, Radio} from "antd";
+import {Form, Input, Radio} from "antd";
 import ItemTimeRange from "../../common/Form/Item/ItemTimeRange";
 import ItemSelectGroup from "../../group/Form/Item/ItemSelectGroup";
 
@@ -29,6 +29,9 @@ const SignFormProfile = (props: any) => {
                 </Radio.Group>
             </Form.Item>
             <ItemTimeRange label={"签到起止时间"} required={true}/>
+            <Form.Item name="usl_id" label={"名单"}>
+                <Input />
+            </Form.Item>
         </>
     )
 }

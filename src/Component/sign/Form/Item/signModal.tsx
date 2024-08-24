@@ -6,7 +6,7 @@ import cApi from "../../../../Utils/API/c-api_test";
 
 interface SignModalProps extends RouteComponentProps, WithTranslation {
     group_id: number;
-    username: bigint; // 确保 username 类型为 bigint
+    username: string; // 确保 username 类型为 bigint
 }
 
 const SignModal=(props:any)=>{

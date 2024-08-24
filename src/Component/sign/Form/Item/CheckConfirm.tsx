@@ -31,18 +31,20 @@ const CheckConfirm = (props: any) => {
     };
 
     const getLeaveDetail = () => {
-        MApi.getSignUserList({sg_id: props.sg_id}).then((data: any) => {
-            const filteredData = data.filter((item: any) => item.sg_user_message !== null
-                && item.sg_user_message !== "");
-            updateData(filteredData);
-        }).catch(() => {
-            console.log("error");
+        MApi.getSignUserList({sg_id: props.sg_id}).then((data: any) => data.rows)
+            .then(data=>{
+                const filteredData = data.filter((item: any) => item.sg_user_message !== null
+                    && item.sg_user_message !== "");
+                updateData(filteredData);
+            })
+            .catch((error) => {
+            console.log(error);
         });
     };
 
-    const setAbsencePass = (data: any, sg_absence_pass: number) => {
+    const setAbsencePass = (data: any, sg_u_id:number, sg_absence_pass: number) => {
         let d = {
-            "sg_u_id": data.sg_u_id,
+            "sg_u_id": sg_u_id,
             "sg_absence_pass": sg_absence_pass
         };
         MApi.updateSignUserCheck(d).then(() => {
@@ -59,8 +61,8 @@ const CheckConfirm = (props: any) => {
             setleaveApprovalPendingData(initData.filter((v: any) => v.sg_absence_pass === null
                 || v.sg_absence_pass === ""));
             updateTable();
-        }).catch(() => {
-            console.log("error in set absence pass");
+        }).catch((error) => {
+            console.log(error);
         });
     };
 
@@ -78,7 +80,7 @@ const CheckConfirm = (props: any) => {
         },
         {
             title: props.t("username"),
-            dataIndex: 'username',
+            dataIndex: 'user_name',
             width: "auto",
         },
         {
@@ -88,7 +90,7 @@ const CheckConfirm = (props: any) => {
         },
         {
             title: props.t("signUserMessage"),
-            dataIndex: 'sg_user_message',
+            dataIndex: 'sg_u_message',
             width: "auto",
             render: (text: any) => {
                 if (text) {
@@ -126,8 +128,8 @@ const CheckConfirm = (props: any) => {
             render: (text: any, rows: any) => {
                 return (
                     <Space>
-                        <Button type="link" size={"small"} onClick={() => setAbsencePass([rows], 1)}>同意</Button>
-                        <Button type="link" size={"small"} onClick={() => setAbsencePass([rows], 2)}>拒绝</Button>
+                        <Button type="link" size={"small"} onClick={() => setAbsencePass([rows], rows.sg_u_id,1)}>同意</Button>
+                        <Button type="link" size={"small"} onClick={() => setAbsencePass([rows], rows.sg_u_id,2)}>拒绝</Button>
                     </Space>
                 );
             }

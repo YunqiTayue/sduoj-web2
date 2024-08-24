@@ -3,22 +3,27 @@ import LoginCheck from "../common/LoginCheck";
 import {Button, Card, Result} from "antd";
 import Timer from "../common/Timer";
 import {isValueEmpty} from "../../Utils/empty";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useReducer, useState} from "react";
 import {TimeRangeState} from "../../Utils/Time";
 import MarkdownText from "../../Utils/MarkdownText";
 import cApi from "../../Utils/API/c-api"
 import {UrlPrefix} from "../../Config/constValue";
 import {withTranslation} from "react-i18next";
 import QrCodeWithWebSocket from "../sign/Form/Item/qrCode";
+import {useSelector} from "react-redux";
 
 const Public = (props: any) => {
     const problemSetId = props.match.params.problemSetId
-
     const {Meta} = Card;
     const [info, setInfo] = useState<any>()
     const State = info && TimeRangeState(info.tm_start, info.tm_end)
     const [scanned,setScanned]=useState(false)
-    const [token,setToken]=useState("")
+    const username=useSelector((state:any)=>state.UserReducer.userInfo?.username)
+    const groupId=props.match.params.groupId
+
+    const handleScanStatusChange = (scanned: boolean) => {
+        setScanned(scanned);
+    };
 
     useEffect(() => {
         if (info === undefined) {
@@ -45,8 +50,9 @@ const Public = (props: any) => {
                 extra={
                     <div className={"Ewait-content"}>
                         <QrCodeWithWebSocket
-                            group_id={props.groupId}
-                            username={props.username}
+                            group_id={groupId}
+                            username={username}
+                            onScanStatusChange={handleScanStatusChange} // 传递回调函数给子组件
                         />
                         <Card
                             cover={
